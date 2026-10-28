@@ -47,7 +47,7 @@ const LoginForm = ({ setUser, notificationHandler }) => {
         color="secondary"
         type="submit"
       >
-        Log in
+        login
       </Button>
     </form>
   );

@@ -1,46 +1,42 @@
-import axios from 'axios'
-const baseUrl = '/api/blogs'
+import axios from "axios";
+import { getUser } from "./persistentUser";
 
-const getAll = () => {
-  const request = axios.get(baseUrl)
-  return request.then(response => response.data)
-}
+const baseUrl = "/api/blogs";
+
+const getAll = () => axios.get(baseUrl).then((response) => response.data);
 
 const postBlog = (newBlog) => {
-  const loggedUserJSON = window.localStorage.getItem("loggedBlogappUser");
-  if (!loggedUserJSON) {
+  const user = getUser();
+  if (!user) {
     throw new Error("User not logged in");
   }
-  const config = {
-    headers: { Authorization: `Bearer ${JSON.parse(loggedUserJSON).token}` }
-  }
 
-  const request = axios.post(baseUrl, newBlog, config)
-  return request.then(response => response.data)
-}
+  return axios
+    .post(baseUrl, newBlog, {
+      headers: { Authorization: `Bearer ${user.token}` },
+    })
+    .then((response) => response.data);
+};
 
-const updateBlog = (id, updatedBlog) => {
-  const request = axios.put(`${baseUrl}/${id}`, updatedBlog)
-  return request.then(response => response.data)
-}
+const updateBlog = (id, updatedBlog) =>
+  axios.put(`${baseUrl}/${id}`, updatedBlog).then((response) => response.data);
 
 const deleteBlog = (id) => {
-
-  const loggedUserJSON = window.localStorage.getItem("loggedBlogappUser");
-  if (!loggedUserJSON) {
+  const user = getUser();
+  if (!user) {
     throw new Error("User not logged in");
   }
-  const config = {
-    headers: { Authorization: `Bearer ${JSON.parse(loggedUserJSON).token}` }
-  }
 
-  const request = axios.delete(`${baseUrl}/${id}`, config)
-  return request.then(response => response.data)
-}
+  return axios
+    .delete(`${baseUrl}/${id}`, {
+      headers: { Authorization: `Bearer ${user.token}` },
+    })
+    .then((response) => response.data);
+};
 
-const addComment = (id, comment) => {
-  const request = axios.post(`${baseUrl}/${id}/comments`, { comment })
-  return request.then(response => response.data)
-}
+const addComment = (id, comment) =>
+  axios
+    .post(`${baseUrl}/${id}/comments`, { comment })
+    .then((response) => response.data);
 
-export default { getAll, postBlog, updateBlog, deleteBlog, addComment }
+export default { getAll, postBlog, updateBlog, deleteBlog, addComment };

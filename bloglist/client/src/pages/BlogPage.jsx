@@ -111,7 +111,7 @@ const BlogPage = () => {
           >
             {isLiking ? "Liking..." : "Like"}
           </Button>
-          {blog.user?.name && <p>Added by {blog.user.name}</p>}
+          <p>Added by {blog.user.name}</p>
           <section aria-labelledby="comments-heading">
             <h2 id="comments-heading">Comments</h2>
             <form onSubmit={commentHandler}>

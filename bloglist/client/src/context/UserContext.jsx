@@ -1,20 +1,16 @@
 import { createContext, useMemo, useState } from "react";
+import { getUser, removeUser, saveUser } from "../services/persistentUser";
 
 const UserContext = createContext(null);
 
-const readStoredUser = () => {
-  const storedUser = window.localStorage.getItem("loggedBlogappUser");
-  return storedUser ? JSON.parse(storedUser) : null;
-};
-
 export const UserProvider = ({ children }) => {
-  const [user, setUserState] = useState(readStoredUser);
+  const [user, setUserState] = useState(getUser);
 
   const setUser = (nextUser) => {
     if (nextUser) {
-      window.localStorage.setItem("loggedBlogappUser", JSON.stringify(nextUser));
+      saveUser(nextUser);
     } else {
-      window.localStorage.removeItem("loggedBlogappUser");
+      removeUser();
     }
     setUserState(nextUser);
   };

@@ -20,28 +20,28 @@ const Navigation = ({ user, handleLogout }) => (
           <>
             <span className="navigationUser">{user.name}</span>
             <Button color="inherit" component={RouterLink} to="/">
-              Blogs
+              blogs
             </Button>
             <Button color="inherit" component={RouterLink} to="/users">
-              Users
+              users
             </Button>
             <Button color="inherit" component={RouterLink} to="/create">
-              New blog
+              new blog
             </Button>
             <Button className="navigationLogout" onClick={handleLogout}>
-              Log out
+              logout
             </Button>
           </>
         ) : (
           <>
             <Button color="inherit" component={RouterLink} to="/">
-              Blogs
+              blogs
             </Button>
             <Button color="inherit" component={RouterLink} to="/users">
-              Users
+              users
             </Button>
             <Button color="inherit" component={RouterLink} to="/login">
-              Log in
+              login
             </Button>
           </>
         )}

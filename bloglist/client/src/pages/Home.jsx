@@ -34,7 +34,7 @@ const Home = ({ user }) => {
       </header>
 
       <section className="blogSection">
-        <h2 className="blogSectionHeading">Latest blogs</h2>
+        <h2 className="blogSectionHeading">blogs</h2>
 
         {blogs
           .toSorted((a, b) => b.likes - a.likes)
