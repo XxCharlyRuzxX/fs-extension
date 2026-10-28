@@ -1,17 +1,30 @@
-import { useState } from "react"
-import { useNavigate } from "react-router"
+import { useNavigate } from "react-router";
+import { useField, useAnecdotes } from "../hooks";
 
-const CreateNew = ({ addAnecdote }) => {
-  const [content, setContent] = useState("")
-  const [author, setAuthor] = useState("")
-  const [info, setInfo] = useState("")
-  const navigate = useNavigate()
+const CreateNew = () => {
+  const navigate = useNavigate();
+  const { addAnecdote } = useAnecdotes();
+
+  const content = useField();
+  const author = useField();
+  const info = useField();
+
+  const resetFields = () => {
+    content.reset();
+    author.reset();
+    info.reset();
+  };
 
   const handleSubmit = (e) => {
-    e.preventDefault()
-    addAnecdote({ content, author, info, votes: 0 })
-    navigate("/")
-  }
+    e.preventDefault();
+    addAnecdote({
+      content: content.props.value,
+      author: author.props.value,
+      info: info.props.value,
+      votes: 0,
+    });
+    navigate("/");
+  };
 
   return (
     <div>
@@ -19,32 +32,23 @@ const CreateNew = ({ addAnecdote }) => {
       <form onSubmit={handleSubmit}>
         <div>
           content
-          <input
-            name="content"
-            value={content}
-            onChange={(e) => setContent(e.target.value)}
-          />
+          <input {...content.props} />
         </div>
         <div>
           author
-          <input
-            name="author"
-            value={author}
-            onChange={(e) => setAuthor(e.target.value)}
-          />
+          <input {...author.props} />
         </div>
         <div>
           url for more info
-          <input
-            name="info"
-            value={info}
-            onChange={(e) => setInfo(e.target.value)}
-          />
+          <input {...info.props} />
         </div>
-        <button>create</button>
+        <button type="submit">create</button>
+        <button type="reset" onClick={resetFields}>
+          reset
+        </button>
       </form>
     </div>
-  )
-}
+  );
+};
 
-export default CreateNew
+export default CreateNew;
