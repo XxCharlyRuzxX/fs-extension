@@ -22,6 +22,9 @@ const Navigation = ({ user, handleLogout }) => (
             <Button color="inherit" component={RouterLink} to="/">
               Blogs
             </Button>
+            <Button color="inherit" component={RouterLink} to="/users">
+              Users
+            </Button>
             <Button color="inherit" component={RouterLink} to="/create">
               New blog
             </Button>
@@ -33,6 +36,9 @@ const Navigation = ({ user, handleLogout }) => (
           <>
             <Button color="inherit" component={RouterLink} to="/">
               Blogs
+            </Button>
+            <Button color="inherit" component={RouterLink} to="/users">
+              Users
             </Button>
             <Button color="inherit" component={RouterLink} to="/login">
               Log in

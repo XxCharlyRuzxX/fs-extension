@@ -1,22 +1,24 @@
-import { useState } from "react";
 import { Link } from "react-router-dom";
 import CreateBlog from "../components/CreateBlog";
 import Notification from "../components/Notification";
-import blogService from "../services/blogs";
+import { useNotificationStore } from "../services/notificationStore";
+import { useBlogStore } from "../services/blogStore";
 
 const CreateBlogPage = () => {
-  const [notification, setNotification] = useState(null);
+  const { notify, notification } = useNotificationStore();
+  const { createBlog } = useBlogStore();
 
   const notificationHandler = ({ message, type }) => {
-    setNotification({ message, type });
-    setTimeout(() => setNotification(null), 5000);
+    notify({ message, type });
   };
 
   return (
     <main className="appPage">
-      <p><Link to="/">Back to blogs</Link></p>
+      <p>
+        <Link to="/">Back to blogs</Link>
+      </p>
       <CreateBlog
-        createBlog={blogService.postBlog}
+        createBlog={createBlog}
         notificationHandler={notificationHandler}
       />
       {notification && (

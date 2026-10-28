@@ -103,6 +103,26 @@ body {
   font-size: 32px;
 }
 
+.usersTable {
+  width: 100%;
+  margin-top: 28px;
+  border-collapse: collapse;
+  background: white;
+}
+
+.usersTable th,
+.usersTable td {
+  padding: 14px 16px;
+  border-bottom: 1px solid #d9e2dc;
+  text-align: left;
+}
+
+.usersTable th {
+  color: #52655c;
+  font-size: 13px;
+  text-transform: uppercase;
+}
+
 .appButton {
   padding: 10px 15px;
   border: 0;

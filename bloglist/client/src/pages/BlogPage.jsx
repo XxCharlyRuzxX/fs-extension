@@ -1,12 +1,16 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
+import Button from "@mui/material/Button";
 import blogService from "../services/blogs";
+import { useBlogStore } from "../services/blogStore";
 
 const BlogPage = () => {
   const { id } = useParams();
   const [blog, setBlog] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [isLiking, setIsLiking] = useState(false);
+  const updateBlog = useBlogStore((state) => state.updateBlog);
 
   useEffect(() => {
     let isActive = true;
@@ -34,6 +38,23 @@ const BlogPage = () => {
     };
   }, [id]);
 
+  const likeHandler = async () => {
+    if (!blog || isLiking) {
+      return;
+    }
+
+    setIsLiking(true);
+    setError(null);
+    try {
+      const updatedBlog = await updateBlog(blog.id, { likes: blog.likes + 1 });
+      setBlog(updatedBlog);
+    } catch (requestError) {
+      setError(requestError.message);
+    } finally {
+      setIsLiking(false);
+    }
+  };
+
   return (
     <main className="appPage">
       <p className="backLink">
@@ -59,6 +80,14 @@ const BlogPage = () => {
           <p className="blogLikes">
             Likes: <strong>{blog.likes}</strong>
           </p>
+          <Button
+            variant="contained"
+            color="secondary"
+            onClick={likeHandler}
+            disabled={isLiking}
+          >
+            {isLiking ? "Liking..." : "Like"}
+          </Button>
           {blog.user?.name && <p>Added by {blog.user.name}</p>}
         </article>
       )}

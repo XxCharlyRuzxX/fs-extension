@@ -1,15 +1,16 @@
-import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import LoginForm from "../components/Login";
 import Notification from "../components/Notification";
+import { useNotificationStore } from "../services/notificationStore";
+import { useUser } from "../context/useUser";
 
-const LoginPage = ({ setUser }) => {
+const LoginPage = () => {
   const navigate = useNavigate();
-  const [notification, setNotification] = useState(null);
+  const { setUser } = useUser();
+  const { notify, notification } = useNotificationStore();
 
   const notificationHandler = ({ message, type }) => {
-    setNotification({ message, type });
-    setTimeout(() => setNotification(null), 5000);
+    notify({ message, type });
   };
 
   const handleLogin = (user) => {

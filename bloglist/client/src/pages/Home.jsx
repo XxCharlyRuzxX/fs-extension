@@ -1,43 +1,25 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import Blog from "../components/Blog";
-import blogService from "../services/blogs";
 import Notification from "../components/Notification";
+import { useNotificationStore } from "../services/notificationStore";
+import { useBlogStore } from "../services/blogStore";
 
 const Home = ({ user }) => {
-  const [blogs, setBlogs] = useState([]);
-  const [notification, setNotification] = useState(null);
+  const { blogs, fetchBlogs, updateBlog, deleteBlog } = useBlogStore();
+  const { notify, notification } = useNotificationStore();
 
   useEffect(() => {
     fetchBlogs().catch((error) => {
       console.error("Error fetching blogs:", error);
-      setNotification({
+      notify({
         message: `Error fetching blogs: ${error.message}`,
         type: "error",
       });
     });
-  }, []);
-
-  const fetchBlogs = async () => {
-    const blogs = await blogService.getAll();
-    setBlogs(blogs);
-  };
-
-  const updateBlog = async (id, updatedBlog) => {
-    await blogService.updateBlog(id, updatedBlog);
-    await fetchBlogs();
-  };
-
-  const deleteBlog = async (id) => {
-    await blogService.deleteBlog(id);
-    await fetchBlogs();
-  };
+  }, [fetchBlogs, notify]);
 
   const notificationHandler = ({ message, type }) => {
-    setNotification({ message, type });
-
-    setTimeout(() => {
-      setNotification(null);
-    }, 5000);
+    notify({ message, type });
   };
 
   return (
